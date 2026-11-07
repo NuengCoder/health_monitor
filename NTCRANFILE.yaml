@@ -1,0 +1,53 @@
+# NTCRANFILE — ntc task runner configuration
+# Usage:
+#   ran run        -> runs the main Linux script with defaults
+#   ran run-flag1  -> runs with high thresholds (no alerts expected)
+#   ran run-flag2  -> runs with low thresholds (ALERT TRIGGERED)
+#   ran run-flag3  -> runs with 1s interval and JSON output
+#   ran run-multi  -> runs the cross-platform version
+#   ran check      -> runs shellcheck on both scripts
+#   ran clean      -> removes the logs directory
+#   ran list       -> lists all targets
+
+vars: {}
+
+targets:
+  # Runs the primary Linux health monitor script with defaults
+  run:
+    deps: []
+    cmd: "chmod +x health_monitor.sh && ./health_monitor.sh"
+
+  # Flag Set 1: High thresholds, normal interval (Silent)
+  run-flag1:
+    deps: []
+    cmd: "chmod +x health_monitor.sh && ./health_monitor.sh -i 5 -c 90 -m 90 -d 95"
+
+  # Flag Set 2: Extremely low thresholds -> GUARANTEED ALERTS
+  run-flag2:
+    deps: []
+    cmd: "chmod +x health_monitor.sh && ./health_monitor.sh -i 2 -c 1 -m 1 -d 10"
+
+  # Flag Set 3: Fast sampling (1s) + JSON output enabled
+  run-flag3:
+    deps: []
+    cmd: "chmod +x health_monitor.sh && ./health_monitor.sh -i 1 -j"
+
+  # Runs the experimental cross-platform script (Linux/macOS/Termux)
+  run-multi:
+    deps: []
+    cmd: "chmod +x health_monitor_multi.sh && ./health_monitor_multi.sh"
+
+  # Validates the shell scripts for syntax and best-practice warnings
+  checks:
+    deps: []
+    cmd: "shellcheck health_monitor.sh health_monitor_multi.sh && echo '✅ Shellcheck passed!'"
+
+  # Clears generated CSV and alert logs
+  clean:
+    deps: []
+    cmd: "rm -rf logs/ && echo '🧹 Logs cleaned!'"
+
+  # The default standalone target (if you just type 'ran')
+  standalone:
+    deps: []
+    cmd: "echo 'Hello from ran! Please run: ran run'"

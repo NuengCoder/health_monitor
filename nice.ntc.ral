@@ -1,0 +1,24 @@
+# ntc run aliases export
+# Import with: ral import <file>
+
+[run_aliases]
+bup = "backup create"
+bup-file = "cp ${x} ${x}.bak -f"
+bup-list = "backup list"
+h = "run clear && help"
+ha = "help --all"
+n = "td add \"$*{x}\""
+replace = "qur *.* -s \"$*{x}\" -rp \"$*{y}\""
+rwk = "tp rm wk && tp add wk && pause && clear"
+size_mode_off = "config fv off && config size off"
+size_mode_on = "config size on && config fv on"
+t4 = "theme 4"
+u = "run clear && size --care --time && view --size --care --time --sort size -d 1"
+v = "run clear && view --care --time -d ${x:-1}"
+vd = "run clear && viewd --care --time -d ${x:-1}"
+vf = "run clear && viewf --time --care"
+vs = "views"
+wk = "tp to wk"
+
+[run_alias_hints]
+bup-file = "#x --hint-file"
